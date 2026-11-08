@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UCD Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">User Centered Design &amp; Evaluation · Sustainable Interaction Design</p>
+    </header>
+
+    <section class="section">
+      <header class="header">
+        <p class="eyebrow">The team</p>
+        <h2 class="section-title">Members &amp; roles</h2>
+      </header>
+      <div class="grid" id="team" aria-label="Team members"></div>
+    </section>
+
+    <section class="section">
+      <header class="header">
+        <p class="eyebrow">Progress</p>
+        <h2 class="section-title">Week by week</h2>
+      </header>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+  </main>
+
+  <script src="members.js"></script>
+  <script src="progress.js"></script>
+  <script>
+    function make(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function initials(name) {
+      const parts = name.trim().split(/\s+/);
+      const first = parts[0] ? parts[0][0] : "";
+      const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+      return (first + last).toUpperCase();
+    }
+
+    function card(member) {
+      const el = make("article", "card");
+
+      const media = make("div", "card-media");
+      media.append(make("span", "card-initials", member.initials || initials(member.name)));
+
+      if (member.photo) {
+        const img = document.createElement("img");
+        img.src = member.photo;
+        img.alt = "Photo of " + member.name;
+        img.loading = "lazy";
+        // Fall back to initials if the image is missing.
+        img.onerror = () => img.remove();
+        media.append(img);
+      }
+
+      const body = make("div", "card-body");
+      body.append(
+        make("h3", "card-name", member.name),
+        make("p", "card-role", member.role),
+        make("p", "card-id", member.id)
+      );
+
+      el.append(media, body);
+      return el;
+    }
+
+    function update(post) {
+      const el = make("article", "update");
+      const meta = make("div", "update-meta");
+      meta.append(make("span", "pill", "Update"), make("span", "update-date", post.date));
+      el.append(meta);
+      if (post.title) el.append(make("h4", "update-title", post.title));
+      if (post.body) el.append(make("p", "update-body", post.body));
+      return el;
+    }
+
+    function week(w) {
+      const el = make("li", "week is-" + (w.status || "upcoming"));
+
+      const label = make("div", "week-label");
+      label.append(make("span", "week-name", w.week), make("span", "week-dates", w.dates));
+
+      const content = make("div", "week-content");
+      const head = make("div", "week-head");
+      head.append(make("h3", "week-title", w.title));
+      if (w.status === "current") head.append(make("span", "badge badge-current", "This week"));
+      if (w.status === "done") head.append(make("span", "badge badge-done", "Complete"));
+      (w.badges || []).forEach((b) => head.append(make("span", "badge badge-due", b)));
+      content.append(head);
+
+      if (w.description) content.append(make("p", "week-desc", w.description));
+      (w.updates || []).forEach((p) => content.append(update(p)));
+
+      el.append(label, make("span", "week-dot"), content);
+      return el;
+    }
+
+    document.getElementById("team").append(...MEMBERS.map(card));
+    document.getElementById("timeline").append(...WEEKS.map(week));
+  </script>
+</body>
+</html>
