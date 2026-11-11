@@ -16,7 +16,7 @@ const WEEKS = [
     title: "Research plan",
     description:
       "Practice, users, other actors, fieldwork plan. Autoethnography, traveller booklets, stakeholder interview.",
-    status: "current",
+    status: "done",
     badges: ["Website due Sun 8 Nov"],
     updates: [
       {
@@ -32,6 +32,25 @@ Dim 3. User group
 Students and university staff (specifically students)
 Dim 4. SID dimensions
 Practices & Routines + Relationships & Commons`,
+      },
+    ],
+  },
+  {
+    week: "Week 2",
+    dates: "9–13 Nov",
+    title: "Research synthesis",
+    description:
+      "Personas, trip/journey maps showing where decisions and impacts happen, and a system map.",
+    status: "current",
+    badges: ["Lab assessment 1"],
+    updates: [
+      {
+        date: "Nov 11",
+        title: "Fieldwork done",
+        body: `Interviews: 12 travellers with the Your Journey booklet, 3 per member, all with signed consent (see Interviews).
+Stakeholders: two bus drivers (8 and 12 years of experience), an Uber driver and a taxi driver (see Stakeholders).
+Travel diaries: Pedro's and Martijn's night trips are on the Night trips page.
+Next: the synthesis (personas, scenarios, CI models).`,
       },
     ],
   },

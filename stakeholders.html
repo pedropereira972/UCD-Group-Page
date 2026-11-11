@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UCD Group · Stakeholders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">UCD</span>UCD Group</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Team &amp; progress</a>
+        <a href="research.html">Interviews</a>
+        <a href="stakeholders.html" aria-current="page">Stakeholders</a>
+        <a href="diary.html">Night trips</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">User research</p>
+      <h1 class="hero-title">Stakeholders</h1>
+      <p class="hero-lead">
+        The people who move students around at night: bus, Uber and taxi drivers.
+        We asked for their view of the problem, not about their own trips. Described by role, never named.
+      </p>
+    </header>
+
+    <div class="stakeholders" id="stakeholders"></div>
+  </main>
+
+  <script src="stakeholders.js?v=1"></script>
+  <script>
+    function make(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function fact(label, value) {
+      const row = make("div");
+      row.append(make("dt", "", label), make("dd", value ? "" : "todo", value || "To fill in"));
+      return row;
+    }
+
+    function list(items, tag, empty) {
+      if (!items || !items.length) return make("p", "todo", empty);
+      const el = make(tag, "stake-list");
+      items.forEach((t) => el.append(make("li", "", t)));
+      return el;
+    }
+
+    function card(s) {
+      const el = make("article", "stake-card");
+
+      const head = make("div", "stake-head");
+      head.append(make("h2", "stake-role", s.role));
+      if (s.experience) head.append(make("span", "badge badge-current", s.experience + " of experience"));
+      el.append(head);
+      if (s.about) el.append(make("p", "stake-about", s.about));
+
+      const facts = make("dl", "facts");
+      facts.append(
+        fact("Interviewed by", s.by),
+        fact("Date", s.date),
+        fact("Consent", s.consent ? "Signed" : "")
+      );
+      el.append(facts);
+
+      el.append(make("h3", "stake-sub", "What they told us"));
+      el.append(list(s.points, "ul", "To fill in"));
+      if (s.quotes && s.quotes.length) {
+        el.append(make("h3", "stake-sub", "In their words"));
+        const q = make("div", "stake-quotes");
+        s.quotes.forEach((t) => q.append(make("blockquote", "", "“" + t + "”")));
+        el.append(q);
+      }
+      return el;
+    }
+
+    document.getElementById("stakeholders").append(...STAKEHOLDERS.map(card));
+  </script>
+</body>
+</html>

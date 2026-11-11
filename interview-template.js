@@ -5,7 +5,7 @@
 
 ({
   // ---- About this entry ----
-  type: "Traveller",            // "Traveller" | "Stakeholder"
+  type: "Traveller",            // always "Traveller" (stakeholders go in stakeholders.js)
   by: "",                       // team member who ran it (first name)
   date: "",                     // e.g. "12 Nov"
   description: "",              // who they are, no name, e.g. "MSc student, goes out in Bairro Alto most weekends"
@@ -13,7 +13,7 @@
   rideAlong: false,             // true if you joined them on a trip
   consent: false,               // true once the consent form is signed
   insight: "",                  // the most important thing you learned
-  notes: "",                    // anything else; for stakeholders, the interview notes go here
+  notes: "",                    // anything else worth keeping
 
   // ---- 1.1 Your trips ----
   whereWeek: "",                // where they go in a normal week (describe the sketch/map)

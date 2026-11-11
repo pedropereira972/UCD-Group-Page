@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
   <header class="topbar">
@@ -16,6 +16,7 @@
       <nav class="nav" aria-label="Pages">
         <a href="index.html">Team &amp; progress</a>
         <a href="research.html" aria-current="page">Interviews</a>
+        <a href="stakeholders.html">Stakeholders</a>
         <a href="diary.html">Night trips</a>
       </nav>
     </div>
@@ -27,8 +28,9 @@
         <p class="eyebrow">User research</p>
         <h1 class="hero-title">Interviews</h1>
         <p class="hero-lead">
-          Each member interviews at least 3 travellers from our user group with the Your Journey booklet,
-          and at least 1 stakeholder. People are described, never named. Click a row to read all their answers.
+          Each member interviews at least 3 travellers from our user group with the Your Journey booklet.
+          People are described, never named. Click a row to read all their answers.
+          The stakeholders are on their own <a class="back" href="stakeholders.html">Stakeholders</a> page.
         </p>
       </div>
       <div class="header-actions">
@@ -52,8 +54,6 @@
         <h2 class="section-title">All interviews</h2>
       </header>
 
-      <div class="filters" id="filters" role="group" aria-label="Filter by type"></div>
-
       <div class="sheet-wrap">
         <table class="sheet">
           <thead>
@@ -69,7 +69,7 @@
 
   <script src="members.js"></script>
   <script src="booklet.js?v=3"></script>
-  <script src="research.js"></script>
+  <script src="research.js?v=2"></script>
   <script>
     function fmt(v) {
       if (v === undefined || v === null || v === "") return "";
@@ -110,7 +110,6 @@
     // Overview columns. Everything else is in the full answer sheet and the CSV.
     const COLUMNS = [
       ["#", (r, i) => "P" + (i + 1)],
-      ["Type", (r) => r.type],
       ["Interviewed by", (r) => r.by],
       ["Date", (r) => r.date],
       ["Description", (r) => r.description, "wide"],
@@ -123,14 +122,12 @@
       ["Consent", (r) => (r.consent ? "Signed" : "Missing")],
     ];
     const META = [
-      ["type", "Type"], ["by", "Interviewed by"], ["date", "Date"], ["description", "Description"],
+      ["by", "Interviewed by"], ["date", "Date"], ["description", "Description"],
       ["neighbourhood", "Neighbourhood / municipality"], ["rideAlong", "Ride-along"], ["consent", "Consent signed"],
       ["insight", "Key insight"], ["notes", "Notes"],
     ];
     // Minimum per member, from the project brief.
-    const REQUIRED = { Traveller: 3, Stakeholder: 1 };
-    const TYPES = ["All", "Traveller", "Stakeholder"];
-    let filter = "All";
+    const REQUIRED_TRAVELLERS = 3;
     let selected = null;
 
     function make(tag, className, text) {
@@ -144,10 +141,6 @@
       return name.trim().split(/\s+/)[0];
     }
 
-    function hasBooklet(r) {
-      return BOOKLET.some((s) => s.questions.some((q) => fmt(r[q.key])));
-    }
-
     function renderProgress() {
       const box = document.getElementById("progress");
       box.replaceChildren(...MEMBERS.map((m) => {
@@ -156,25 +149,10 @@
         const card = make("div", "progress-card");
         card.append(make("span", "progress-name", name));
         const counts = make("div", "progress-counts");
-        Object.entries(REQUIRED).forEach(([type, min]) => {
-          const n = mine.filter((r) => r.type === type).length;
-          const label = type + "s";
-          counts.append(make("span", "count" + (n >= min ? " is-met" : ""), label + " " + n + "/" + min));
-        });
+        const n = mine.length;
+        counts.append(make("span", "count" + (n >= REQUIRED_TRAVELLERS ? " is-met" : ""), "Travellers " + n + "/" + REQUIRED_TRAVELLERS));
         card.append(counts);
         return card;
-      }));
-    }
-
-    function renderFilters() {
-      const box = document.getElementById("filters");
-      box.replaceChildren(...TYPES.map((t) => {
-        const n = t === "All" ? INTERVIEWS.length : INTERVIEWS.filter((r) => r.type === t).length;
-        const b = make("button", "chip", (t === "All" ? t : t + "s") + " · " + n);
-        b.type = "button";
-        b.setAttribute("aria-pressed", t === filter);
-        b.onclick = () => { filter = t; renderFilters(); renderRows(); };
-        return b;
       }));
     }
 
@@ -184,9 +162,7 @@
 
     function renderRows() {
       const body = document.getElementById("rows");
-      const rows = INTERVIEWS
-        .map((r, i) => [r, i])
-        .filter(([r]) => filter === "All" || r.type === filter);
+      const rows = INTERVIEWS.map((r, i) => [r, i]);
 
       if (!rows.length) {
         const tr = make("tr");
@@ -205,7 +181,6 @@
         COLUMNS.forEach(([label, get]) => {
           const value = get(r, i) || "";
           const td = make("td", "", value);
-          if (label === "Type") td.replaceChildren(make("span", "tag tag-" + (r.type || "").toLowerCase(), value));
           if (label === "Consent" && !r.consent) td.className = "warn";
           tr.append(td);
         });
@@ -269,7 +244,7 @@
 
       const r = INTERVIEWS[i];
       const head = make("div", "answers-head");
-      head.append(make("h3", "answers-title", "P" + (i + 1) + " · " + (r.description || r.type || "")));
+      head.append(make("h3", "answers-title", "P" + (i + 1) + " · " + (r.description || "")));
       const close = make("button", "chip", "Close");
       close.type = "button";
       close.onclick = () => select(i);
@@ -283,20 +258,16 @@
       });
 
       const sections = make("div", "answers-grid");
-      if (r.type === "Stakeholder" && !hasBooklet(r)) {
-        sections.append(make("p", "intro", "Stakeholder interview: the booklet is for travellers, so see the notes above."));
-      } else {
-        BOOKLET.forEach((s) => {
-          const card = make("section", "answer-card" + (s.questions.some((q) => q.days) ? " is-wide" : ""));
-          card.append(make("h4", "answer-section", s.id + " " + s.title));
-          const dl = make("dl");
-          s.questions.forEach((q) => {
-            dl.append(make("dt", "", q.label), answer(q, r[q.key]));
-          });
-          card.append(dl);
-          sections.append(card);
+      BOOKLET.forEach((s) => {
+        const card = make("section", "answer-card" + (s.questions.some((q) => q.days) ? " is-wide" : ""));
+        card.append(make("h4", "answer-section", s.id + " " + s.title));
+        const dl = make("dl");
+        s.questions.forEach((q) => {
+          dl.append(make("dt", "", q.label), answer(q, r[q.key]));
         });
-      }
+        card.append(dl);
+        sections.append(card);
+      });
 
       box.replaceChildren(head, meta, sections);
       box.hidden = false;
@@ -338,7 +309,6 @@
 
     document.getElementById("download").onclick = downloadCsv;
     renderProgress();
-    renderFilters();
     renderHead();
     renderRows();
   </script>
