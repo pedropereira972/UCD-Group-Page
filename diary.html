@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <header class="topbar">
@@ -48,7 +48,7 @@
     </section>
   </main>
 
-  <script src="diary.js"></script>
+  <script src="diary.js?v=2"></script>
   <script>
     function make(tag, className, text) {
       const el = document.createElement(tag);
@@ -95,15 +95,20 @@
       );
     }
 
-    function nightId(day) {
-      return "night-" + day.slice(0, 3).toLowerCase();
+    // A night belongs to the diary day with the same date (and a day name that starts the same).
+    function nightFor(d) {
+      return current.nights.find((n) => n.date === d.date && n.day.startsWith(d.day.slice(0, 3)));
+    }
+
+    function nightId(n) {
+      return "night-" + (n.day + "-" + n.date).toLowerCase().replace(/[^a-z0-9]+/g, "-");
     }
 
     function renderDays() {
       document.getElementById("days").replaceChildren(...current.days.map((d) => {
-        const night = current.nights.find((n) => n.day.slice(0, 3) === d.day);
+        const night = nightFor(d);
         const pill = make(night ? "a" : "div", "day-pill" + (night ? " has-night" : ""));
-        if (night) pill.href = "#" + nightId(night.day);
+        if (night) pill.href = "#" + nightId(night);
         pill.append(
           make("strong", "", d.day + " " + d.date),
           make("span", "", night ? plural(night.trips.length, "trip") : "No night trip")
@@ -112,35 +117,34 @@
       }));
     }
 
+    // Empty fields are left out.
     function fact(label, value) {
+      if (!value) return null;
       const row = make("div");
-      row.append(make("dt", "", label), make("dd", value ? "" : "todo", value || "To fill in"));
+      row.append(make("dt", "", label), make("dd", "", value));
       return row;
     }
 
     function trip(t) {
       const el = make("article", "trip");
       el.append(make("h4", "trip-title", t.title || "Trip"));
-      const route = t.from || t.to ? (t.from || "?") + " → " + (t.to || "?") : "";
-      el.append(make("p", "trip-route" + (route ? "" : " todo"), route || "From → to: to fill in"));
+      if (t.from || t.to) el.append(make("p", "trip-route", (t.from || "?") + " → " + (t.to || "?")));
 
-      const modes = make("div", "modes");
       if ((t.modes || []).length) {
+        const modes = make("div", "modes");
         t.modes.forEach((m) => modes.append(make("span", "mode" + (isCar(m) ? " is-car" : ""), m)));
-      } else {
-        modes.append(make("span", "mode todo", "Modes: to fill in"));
+        el.append(modes);
       }
-      el.append(modes);
 
       const facts = make("dl", "facts");
-      facts.append(
+      facts.append(...[
         fact("Left at", t.left),
         fact("Duration", t.duration),
         fact("Cost", t.cost),
         fact("Why this way", t.why),
         fact("What got in the way", t.obstacles),
-        fact("How it felt", t.feeling)
-      );
+        fact("How it felt", t.feeling),
+      ].filter(Boolean));
       el.append(facts);
       return el;
     }
@@ -148,12 +152,15 @@
     function renderNights() {
       document.getElementById("nights").replaceChildren(...current.nights.map((n) => {
         const card = make("section", "night");
-        card.id = nightId(n.day);
+        card.id = nightId(n);
         const head = make("div", "night-head");
         const title = make("h3", "night-day", n.day);
         title.append(make("span", "night-date", n.date));
         head.append(title, make("span", "badge badge-current", plural(n.trips.length, "trip")));
         card.append(head, ...n.trips.map(trip));
+        if (n.notes) {
+          card.append(make("h4", "trip-title night-notes-title", "End of the day"), make("p", "night-notes", n.notes));
+        }
         return card;
       }));
     }

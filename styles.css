@@ -760,6 +760,9 @@ select.input { cursor: pointer; }
 
 .todo { color: var(--subtle); font-style: italic; }
 
+.night-notes-title { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); }
+.night-notes { margin: 0; color: var(--muted); line-height: 1.6; }
+
 
 .footnote { margin-top: 32px; color: var(--subtle); font-size: 14px; line-height: 1.6; }
 
