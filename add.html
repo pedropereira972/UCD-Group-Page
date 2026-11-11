@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UCD Group · Add a booklet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">UCD</span>UCD Group</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Team &amp; progress</a>
+        <a href="research.html" aria-current="page">Interviews</a>
+        <a href="diary.html">Night trips</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow"><a class="back" href="research.html">← Interviews</a></p>
+      <h1 class="hero-title">Add a booklet</h1>
+      <p class="hero-lead">
+        Type in one interview booklet. Skip anything they left blank. When you're done, press
+        <strong>Create entry</strong>, copy it, and paste it into <code>research.js</code>.
+        What you type is kept in this browser until you clear it.
+      </p>
+    </header>
+
+    <form id="form" novalidate>
+      <section class="form-card">
+        <h2 class="form-title">About this interview</h2>
+        <div class="form-grid" id="meta"></div>
+      </section>
+      <div id="booklet"></div>
+
+      <section class="form-card" id="result">
+        <h2 class="form-title">Your entry</h2>
+        <p class="form-help" id="message">Press Create entry when the booklet is filled in.</p>
+        <div class="actions">
+          <button class="button" type="submit">Create entry</button>
+          <button class="chip" type="button" id="clear">Clear form</button>
+        </div>
+        <div id="output" hidden>
+          <textarea class="input code" id="code" rows="14" readonly aria-label="Entry to paste into research.js"></textarea>
+          <div class="actions">
+            <button class="button" type="button" id="copy">Copy entry</button>
+            <a class="chip" id="github" href="https://github.com/pedropereira972/UCD-Group-Page/edit/main/research.js" target="_blank" rel="noopener">Open research.js on GitHub</a>
+          </div>
+          <ol class="steps">
+            <li>Copy the entry.</li>
+            <li>Open <code>research.js</code> (on GitHub, or in your copy of the project).</li>
+            <li>Paste it on a new line just above the last line, <code>];</code>, and save (on GitHub: <em>Commit changes</em>).</li>
+          </ol>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script src="members.js"></script>
+  <script src="booklet.js?v=3"></script>
+  <script>
+    const DRAFT_KEY = "ucd-add-booklet-draft";
+    let uid = 0;
+    const nextId = () => "f" + ++uid;
+
+    function make(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function textBox(multiline, placeholder) {
+      const el = make(multiline ? "textarea" : "input", "input");
+      if (multiline) el.rows = 2; else el.type = "text";
+      if (placeholder) el.placeholder = placeholder;
+      el.id = nextId();
+      return el;
+    }
+
+    function choice(type, name, label) {
+      const wrap = make("label", "option");
+      const input = make("input");
+      input.type = type;
+      input.name = name;
+      input.value = label;
+      wrap.append(input, make("span", "", label));
+      return { wrap, input };
+    }
+
+    // ---- One builder per kind of question. Each returns { el, get(), set(value) }. ----
+
+    function textQuestion() {
+      const box = textBox(true);
+      return { el: box, focus: box, get: () => box.value.trim(), set: (v) => { box.value = v || ""; } };
+    }
+
+    function singleQuestion(q) {
+      const name = nextId();
+      const el = make("div", "options");
+      const items = q.options.map((o) => choice("radio", name, o));
+      if (q.other) items.push(choice("radio", name, "Other"));
+      items.forEach((i) => el.append(i.wrap));
+      const extra = q.other || q.detail ? textBox(false, q.other ? "Other / details" : "Details (optional)") : null;
+      if (extra) el.append(extra);
+
+      return {
+        el,
+        get() {
+          const picked = items.find((i) => i.input.checked);
+          const more = extra ? extra.value.trim() : "";
+          if (!picked) return more;
+          if (picked.input.value === "Other") return more ? "Other: " + more : "Other";
+          return more ? picked.input.value + ": " + more : picked.input.value;
+        },
+        set(v) {
+          if (!v) return;
+          const match = items.find((i) => i.input.value !== "Other" && (v === i.input.value || v.startsWith(i.input.value + ": ")));
+          if (match) {
+            match.input.checked = true;
+            if (extra) extra.value = v.slice(match.input.value.length).replace(/^: /, "");
+          } else if (extra) {
+            const other = items.find((i) => i.input.value === "Other");
+            if (other) other.input.checked = true;
+            extra.value = v.replace(/^Other:?\s*/, "");
+          }
+        },
+      };
+    }
+
+    function multiQuestion(q) {
+      const el = make("div", "options");
+      // An option is a string, or { label, detail } when it has a blank to fill in.
+      const items = q.options.map((o) => {
+        const item = choice("checkbox", "", typeof o === "string" ? o : o.label);
+        if (typeof o !== "string") {
+          item.detail = textBox(false, o.detail);
+          item.detail.classList.add("input-inline");
+          item.detail.addEventListener("input", () => { if (item.detail.value.trim()) item.input.checked = true; });
+          item.wrap.append(item.detail);
+        }
+        return item;
+      });
+      items.forEach((i) => el.append(i.wrap));
+      const other = q.other ? textBox(false, "Other:") : null;
+      if (other) el.append(other);
+      return {
+        el,
+        get() {
+          const list = items.filter((i) => i.input.checked).map((i) => {
+            const more = i.detail ? i.detail.value.trim() : "";
+            return more ? i.input.value + ": " + more : i.input.value;
+          });
+          if (other && other.value.trim()) list.push("Other: " + other.value.trim());
+          return list;
+        },
+        set(list) {
+          (list || []).forEach((v) => {
+            const match = items.find((i) => i.input.value === v || (i.detail && v.startsWith(i.input.value + ": ")));
+            if (match && match.detail) match.detail.value = v.slice(match.input.value.length).replace(/^: /, "");
+            if (match) match.input.checked = true;
+            else if (other) other.value = String(v).replace(/^Other:\s*/, "");
+          });
+        },
+      };
+    }
+
+    function rankedQuestion(q) {
+      const el = make("ol", "ranked");
+      let listId = "";
+      if (q.options) {
+        const list = make("datalist");
+        list.id = listId = nextId();
+        q.options.forEach((o) => { const opt = make("option"); opt.value = o; list.append(opt); });
+        el.append(list);
+      }
+      const boxes = Array.from({ length: q.count || 3 }, () => {
+        const li = make("li");
+        const box = textBox(false, q.options ? "Pick or type a factor" : "");
+        if (listId) box.setAttribute("list", listId);
+        li.append(box);
+        el.append(li);
+        return box;
+      });
+      return {
+        el,
+        get: () => boxes.map((b) => b.value.trim()).filter(Boolean),
+        set: (list) => (list || []).forEach((v, i) => { if (boxes[i]) boxes[i].value = v; }),
+      };
+    }
+
+    function gridQuestion(q) {
+      const el = make("div", "grid-rows");
+      const rows = Object.entries(q.subs).map(([key, label]) => {
+        const row = make("label", "grid-row");
+        let control;
+        if (q.scale) {
+          control = make("select", "input");
+          ["", ...q.scale].forEach((s) => {
+            const opt = make("option", "", s || "—");
+            opt.value = s;
+            control.append(opt);
+          });
+        } else {
+          control = textBox(false);
+        }
+        row.append(make("span", "", label), control);
+        el.append(row);
+        return [key, control];
+      });
+      return {
+        el,
+        get: () => Object.fromEntries(rows.map(([k, c]) => [k, c.value.trim()])),
+        set: (obj) => rows.forEach(([k, c]) => { if (obj && obj[k] !== undefined) c.value = String(obj[k]); }),
+      };
+    }
+
+    function daysQuestion() {
+      const el = make("div");
+      const list = make("div", "days-list");
+      const days = [];
+
+      function addDay(value) {
+        const block = make("div", "day-block");
+        const date = textBox(false, "Date, e.g. Fri 6 Nov");
+        block.append(date);
+        const scroll = make("div", "day-scroll");
+        const table = make("table", "daytable form-daytable");
+        const head = make("tr");
+        head.append(make("th"), ...Object.values(DAY_LABELS).map((l) => make("th", "", l)));
+        table.append(head);
+        const cells = {};
+        Object.entries(DAY_PERIODS).forEach(([p, label]) => {
+          const tr = make("tr");
+          tr.append(make("th", "", label));
+          cells[p] = {};
+          Object.keys(DAY_LABELS).forEach((k) => {
+            const td = make("td");
+            const box = textBox(false);
+            box.setAttribute("aria-label", label + ": " + DAY_LABELS[k]);
+            td.append(box);
+            tr.append(td);
+            cells[p][k] = box;
+          });
+          table.append(tr);
+        });
+        scroll.append(table);
+        block.append(scroll);
+        list.append(block);
+
+        const day = {
+          get() {
+            const out = { date: date.value.trim() };
+            Object.keys(cells).forEach((p) => {
+              out[p] = Object.fromEntries(Object.entries(cells[p]).map(([k, b]) => [k, b.value.trim()]));
+            });
+            return out;
+          },
+          set(v) {
+            date.value = v.date || "";
+            Object.keys(cells).forEach((p) => Object.keys(cells[p]).forEach((k) => {
+              cells[p][k].value = (v[p] && v[p][k]) || "";
+            }));
+          },
+        };
+        if (value) day.set(value);
+        days.push(day);
+      }
+
+      const more = make("button", "chip", "+ Add another day");
+      more.type = "button";
+      more.onclick = () => addDay();
+      el.append(list, more);
+      addDay();
+
+      const filled = (d) => d.date || Object.keys(DAY_PERIODS).some((p) => Object.values(d[p]).some(Boolean));
+      return {
+        el,
+        get: () => days.map((d) => d.get()).filter(filled),
+        set(list) {
+          (list || []).forEach((v, i) => { if (i >= days.length) addDay(v); else days[i].set(v); });
+        },
+      };
+    }
+
+    const BUILDERS = { single: singleQuestion, multi: multiQuestion, ranked: rankedQuestion, grid: gridQuestion, days: daysQuestion };
+
+    // ---- About this interview ----
+
+    const meta = {};
+    function metaField(key, label, control, wide) {
+      const wrap = make("div", "field" + (wide ? " is-wide" : ""));
+      const lab = make("label", "field-label", label);
+      lab.htmlFor = control.id;
+      wrap.append(lab, control);
+      document.getElementById("meta").append(wrap);
+      meta[key] = control;
+    }
+    function select(options) {
+      const el = make("select", "input");
+      el.id = nextId();
+      options.forEach((o) => { const opt = make("option", "", o); opt.value = o; el.append(opt); });
+      return el;
+    }
+    function checkbox(label) {
+      const wrap = make("label", "option");
+      const input = make("input");
+      input.type = "checkbox";
+      input.id = nextId();
+      wrap.append(input, make("span", "", label));
+      return { wrap, input };
+    }
+
+    metaField("type", "Type", select(["Traveller", "Stakeholder"]));
+    metaField("by", "Interviewed by", select(MEMBERS.map((m) => m.name.split(/\s+/)[0])));
+    metaField("date", "Date", textBox(false, "e.g. 12 Nov"));
+    metaField("neighbourhood", "Neighbourhood / municipality", textBox(false));
+    metaField("description", "Description (who they are, no name)", textBox(true, "e.g. MSc student, goes out in Bairro Alto most weekends"), true);
+    metaField("insight", "Key insight (the most important thing you learned)", textBox(true), true);
+    metaField("notes", "Notes", textBox(true), true);
+    const ride = checkbox("Ride-along (I joined them on a trip)");
+    const consent = checkbox("Consent form signed");
+    const ticks = make("div", "field is-wide options");
+    ticks.append(ride.wrap, consent.wrap);
+    document.getElementById("meta").append(ticks);
+
+    // ---- The booklet ----
+
+    const questions = {};
+    const bookletBox = document.getElementById("booklet");
+    BOOKLET.forEach((s) => {
+      const card = make("section", "form-card");
+      card.append(make("h2", "form-title", s.id + " " + s.title));
+      s.questions.forEach((q) => {
+        const built = (BUILDERS[q.kind] || textQuestion)(q);
+        const wrap = make("div", "question");
+        const label = make(built.focus ? "label" : "p", "field-label", q.label);
+        if (built.focus) label.htmlFor = built.focus.id;
+        wrap.append(label, built.el);
+        card.append(wrap);
+        questions[q.key] = built;
+      });
+      bookletBox.append(card);
+    });
+
+    function toggleBooklet() {
+      bookletBox.hidden = meta.type.value === "Stakeholder";
+    }
+    meta.type.addEventListener("change", toggleBooklet);
+
+    // ---- Collect, save and restore ----
+
+    function collect() {
+      const entry = {
+        type: meta.type.value,
+        by: meta.by.value,
+        date: meta.date.value.trim(),
+        description: meta.description.value.trim(),
+        neighbourhood: meta.neighbourhood.value.trim(),
+        rideAlong: ride.input.checked,
+        consent: consent.input.checked,
+        insight: meta.insight.value.trim(),
+        notes: meta.notes.value.trim(),
+      };
+      if (entry.type !== "Stakeholder") {
+        BOOKLET.forEach((s) => s.questions.forEach((q) => { entry[q.key] = questions[q.key].get(); }));
+      }
+      return entry;
+    }
+
+    function restore(entry) {
+      ["type", "by", "date", "description", "neighbourhood", "insight", "notes"].forEach((k) => {
+        if (entry[k] !== undefined) meta[k].value = entry[k];
+      });
+      ride.input.checked = !!entry.rideAlong;
+      consent.input.checked = !!entry.consent;
+      Object.entries(questions).forEach(([k, q]) => { if (entry[k] !== undefined) q.set(entry[k]); });
+    }
+
+    const form = document.getElementById("form");
+    let saveTimer;
+    form.addEventListener("input", () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collect())); } catch (e) { /* storage unavailable */ }
+      }, 400);
+    });
+
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) restore(JSON.parse(saved));
+    } catch (e) { /* no draft */ }
+    toggleBooklet();
+
+    document.getElementById("clear").onclick = () => {
+      if (!confirm("Clear everything you typed in this form?")) return;
+      try { localStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ }
+      location.reload();
+    };
+
+    // ---- Create and copy the entry ----
+
+    const message = document.getElementById("message");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const entry = collect();
+      const missing = [["date", "the date"], ["description", "a description"]].filter(([k]) => !entry[k]).map(([, l]) => l);
+      if (missing.length) {
+        message.textContent = "Add " + missing.join(" and ") + " first.";
+        message.className = "form-help is-error";
+        meta[missing[0] === "the date" ? "date" : "description"].focus();
+        return;
+      }
+      const code = JSON.stringify(entry, null, 2).replace(/^/gm, "  ") + ",";
+      document.getElementById("code").value = code;
+      document.getElementById("output").hidden = false;
+      message.textContent = "Entry created. Copy it and paste it into research.js.";
+      message.className = "form-help is-ok";
+    });
+
+    document.getElementById("copy").onclick = async () => {
+      const box = document.getElementById("code");
+      try {
+        await navigator.clipboard.writeText(box.value);
+      } catch (e) {
+        box.select();
+        document.execCommand("copy");
+      }
+      message.textContent = "Copied. Now paste it into research.js, just above the last line ( ]; ).";
+      message.className = "form-help is-ok";
+    };
+  </script>
+</body>
+</html>

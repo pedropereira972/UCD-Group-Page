@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UCD Group · Interviews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner topbar-wide">
+      <a class="brand" href="index.html"><span class="brand-mark">UCD</span>UCD Group</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Team &amp; progress</a>
+        <a href="research.html" aria-current="page">Interviews</a>
+        <a href="diary.html">Night trips</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page page-wide">
+    <header class="hero header-row">
+      <div>
+        <p class="eyebrow">User research</p>
+        <h1 class="hero-title">Interviews</h1>
+        <p class="hero-lead">
+          Each member interviews at least 3 travellers from our user group with the Your Journey booklet,
+          and at least 1 stakeholder. People are described, never named. Click a row to read all their answers.
+        </p>
+      </div>
+      <div class="header-actions">
+        <a class="button" href="add.html">+ Add a booklet</a>
+        <button class="chip" id="download" type="button">Download CSV</button>
+      </div>
+    </header>
+
+    <section>
+      <header class="header">
+        <p class="eyebrow">Progress</p>
+        <h2 class="section-title">Who has done what</h2>
+      </header>
+
+      <div class="progress" id="progress" aria-label="Research progress per member"></div>
+    </section>
+
+    <section class="section">
+      <header class="header">
+        <p class="eyebrow">Data</p>
+        <h2 class="section-title">All interviews</h2>
+      </header>
+
+      <div class="filters" id="filters" role="group" aria-label="Filter by type"></div>
+
+      <div class="sheet-wrap">
+        <table class="sheet">
+          <thead>
+            <tr id="head"></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <section class="answers" id="answers" hidden></section>
+    </section>
+  </main>
+
+  <script src="members.js"></script>
+  <script src="booklet.js?v=3"></script>
+  <script src="research.js"></script>
+  <script>
+    function fmt(v) {
+      if (v === undefined || v === null || v === "") return "";
+      if (typeof v === "boolean") return v ? "Yes" : "No";
+      if (Array.isArray(v)) return v.map(fmt).filter(Boolean).join("; ");
+      if (typeof v === "object") {
+        return Object.entries(v)
+          .filter(([, x]) => fmt(x))
+          .map(([k, x]) => (DAY_LABELS[k] || k) + ": " + fmt(x))
+          .join(" · ");
+      }
+      return String(v);
+    }
+
+    function frequentModes(r) {
+      const subs = BOOKLET[1].questions[0].subs;
+      return Object.entries(r.modeFrequency || {})
+        .filter(([, f]) => /daily|weekly/i.test(f))
+        .map(([k, f]) => (subs[k] || k) + " (" + f.toLowerCase() + ")")
+        .join(", ");
+    }
+
+    // The most important factors, about 3 of them. An entry can be a group of tied
+    // factors ("Travel time, cost (marked 2)"), so groups are added until 3 are shown.
+    function topFactors(r) {
+      const groups = Array.isArray(r.factorRank) ? r.factorRank : [];
+      const out = [];
+      let count = 0;
+      for (const g of groups) {
+        if (count >= 3) break;
+        const text = String(g).replace(/\s*\([^)]*\)$/, "");
+        out.push(text);
+        count += text.split(",").length;
+      }
+      return out.join(", ");
+    }
+
+    // Overview columns. Everything else is in the full answer sheet and the CSV.
+    const COLUMNS = [
+      ["#", (r, i) => "P" + (i + 1)],
+      ["Type", (r) => r.type],
+      ["Interviewed by", (r) => r.by],
+      ["Date", (r) => r.date],
+      ["Description", (r) => r.description, "wide"],
+      ["Lives in", (r) => fmt(r.livesIn)],
+      ["Frequent modes", frequentModes],
+      ["Top factors", topFactors, "wide"],
+      ["Barriers", (r) => fmt(r.realBarriers), "wide"],
+      ["Key insight", (r) => r.insight, "wide"],
+      ["Ride-along", (r) => (r.rideAlong ? "Yes" : "No")],
+      ["Consent", (r) => (r.consent ? "Signed" : "Missing")],
+    ];
+    const META = [
+      ["type", "Type"], ["by", "Interviewed by"], ["date", "Date"], ["description", "Description"],
+      ["neighbourhood", "Neighbourhood / municipality"], ["rideAlong", "Ride-along"], ["consent", "Consent signed"],
+      ["insight", "Key insight"], ["notes", "Notes"],
+    ];
+    // Minimum per member, from the project brief.
+    const REQUIRED = { Traveller: 3, Stakeholder: 1 };
+    const TYPES = ["All", "Traveller", "Stakeholder"];
+    let filter = "All";
+    let selected = null;
+
+    function make(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function firstName(name) {
+      return name.trim().split(/\s+/)[0];
+    }
+
+    function hasBooklet(r) {
+      return BOOKLET.some((s) => s.questions.some((q) => fmt(r[q.key])));
+    }
+
+    function renderProgress() {
+      const box = document.getElementById("progress");
+      box.replaceChildren(...MEMBERS.map((m) => {
+        const name = firstName(m.name);
+        const mine = INTERVIEWS.filter((r) => (r.by || "").toLowerCase() === name.toLowerCase());
+        const card = make("div", "progress-card");
+        card.append(make("span", "progress-name", name));
+        const counts = make("div", "progress-counts");
+        Object.entries(REQUIRED).forEach(([type, min]) => {
+          const n = mine.filter((r) => r.type === type).length;
+          const label = type + "s";
+          counts.append(make("span", "count" + (n >= min ? " is-met" : ""), label + " " + n + "/" + min));
+        });
+        card.append(counts);
+        return card;
+      }));
+    }
+
+    function renderFilters() {
+      const box = document.getElementById("filters");
+      box.replaceChildren(...TYPES.map((t) => {
+        const n = t === "All" ? INTERVIEWS.length : INTERVIEWS.filter((r) => r.type === t).length;
+        const b = make("button", "chip", (t === "All" ? t : t + "s") + " · " + n);
+        b.type = "button";
+        b.setAttribute("aria-pressed", t === filter);
+        b.onclick = () => { filter = t; renderFilters(); renderRows(); };
+        return b;
+      }));
+    }
+
+    function renderHead() {
+      document.getElementById("head").replaceChildren(...COLUMNS.map(([label, , cls]) => make("th", cls, label)));
+    }
+
+    function renderRows() {
+      const body = document.getElementById("rows");
+      const rows = INTERVIEWS
+        .map((r, i) => [r, i])
+        .filter(([r]) => filter === "All" || r.type === filter);
+
+      if (!rows.length) {
+        const tr = make("tr");
+        const td = make("td", "empty", "No interviews yet. Use “+ Add a booklet” above to add one.");
+        td.colSpan = COLUMNS.length;
+        tr.append(td);
+        body.replaceChildren(tr);
+        return;
+      }
+
+      body.replaceChildren(...rows.map(([r, i]) => {
+        const tr = make("tr", "row" + (selected === i ? " is-selected" : ""));
+        tr.tabIndex = 0;
+        tr.onclick = () => select(i);
+        tr.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(i); } };
+        COLUMNS.forEach(([label, get]) => {
+          const value = get(r, i) || "";
+          const td = make("td", "", value);
+          if (label === "Type") td.replaceChildren(make("span", "tag tag-" + (r.type || "").toLowerCase(), value));
+          if (label === "Consent" && !r.consent) td.className = "warn";
+          tr.append(td);
+        });
+        return tr;
+      }));
+    }
+
+    function dayTable(day) {
+      const wrap = make("div", "day");
+      wrap.append(make("h5", "day-date", day.date || "Date not set"));
+      const scroll = make("div", "day-scroll");
+      const table = make("table", "daytable");
+      const head = make("tr");
+      head.append(make("th"), ...Object.values(DAY_LABELS).map((l) => make("th", "", l)));
+      table.append(head);
+      Object.entries(DAY_PERIODS).forEach(([p, label]) => {
+        const tr = make("tr");
+        tr.append(make("th", "", label));
+        Object.keys(DAY_LABELS).forEach((k) => {
+          const text = fmt(day[p] && day[p][k]);
+          tr.append(make("td", text ? "" : "blank", text || "—"));
+        });
+        table.append(tr);
+      });
+      scroll.append(table);
+      wrap.append(scroll);
+      return wrap;
+    }
+
+    function answer(q, value) {
+      const dd = make("dd");
+      if (q.days) {
+        const days = (value || []).filter(Boolean);
+        if (!days.length) { dd.textContent = "—"; dd.className = "blank"; }
+        days.forEach((d) => dd.append(dayTable(d)));
+      } else if (q.subs) {
+        const table = make("table", "subtable");
+        Object.entries(q.subs).forEach(([k, label]) => {
+          const tr = make("tr");
+          tr.append(make("th", "", label), make("td", fmt(value && value[k]) ? "" : "blank", fmt(value && value[k]) || "—"));
+          table.append(tr);
+        });
+        dd.append(table);
+      } else if (Array.isArray(value) && value.length) {
+        const list = make(q.ranked ? "ol" : "ul");
+        value.filter((x) => fmt(x)).forEach((x) => list.append(make("li", "", fmt(x))));
+        dd.append(list);
+      } else {
+        const text = fmt(value);
+        dd.textContent = text || "—";
+        if (!text) dd.className = "blank";
+      }
+      return dd;
+    }
+
+    function select(i) {
+      selected = selected === i ? null : i;
+      renderRows();
+      const box = document.getElementById("answers");
+      if (selected === null) { box.hidden = true; return; }
+
+      const r = INTERVIEWS[i];
+      const head = make("div", "answers-head");
+      head.append(make("h3", "answers-title", "P" + (i + 1) + " · " + (r.description || r.type || "")));
+      const close = make("button", "chip", "Close");
+      close.type = "button";
+      close.onclick = () => select(i);
+      head.append(close);
+
+      const meta = make("dl", "answers-meta");
+      META.forEach(([key, label]) => {
+        const text = fmt(r[key]);
+        if (!text) return;
+        meta.append(make("dt", "", label), make("dd", "", text));
+      });
+
+      const sections = make("div", "answers-grid");
+      if (r.type === "Stakeholder" && !hasBooklet(r)) {
+        sections.append(make("p", "intro", "Stakeholder interview: the booklet is for travellers, so see the notes above."));
+      } else {
+        BOOKLET.forEach((s) => {
+          const card = make("section", "answer-card" + (s.questions.some((q) => q.days) ? " is-wide" : ""));
+          card.append(make("h4", "answer-section", s.id + " " + s.title));
+          const dl = make("dl");
+          s.questions.forEach((q) => {
+            dl.append(make("dt", "", q.label), answer(q, r[q.key]));
+          });
+          card.append(dl);
+          sections.append(card);
+        });
+      }
+
+      box.replaceChildren(head, meta, sections);
+      box.hidden = false;
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function downloadCsv() {
+      const cols = [
+        ["#", (r, i) => "P" + (i + 1)],
+        ...META.map(([key, label]) => [label, (r) => fmt(r[key])]),
+      ];
+      BOOKLET.forEach((s) => s.questions.forEach((q) => {
+        if (q.days) {
+          const most = Math.max(0, ...INTERVIEWS.map((r) => (r[q.key] || []).length));
+          for (let d = 0; d < most; d++) {
+            const day = (r) => (r[q.key] || [])[d] || {};
+            cols.push([s.id + " Day " + (d + 1) + ": Date", (r) => fmt(day(r).date)]);
+            Object.entries(DAY_PERIODS).forEach(([p, period]) =>
+              cols.push([s.id + " Day " + (d + 1) + ": " + period, (r) => fmt(day(r)[p])]));
+          }
+        } else if (q.subs) {
+          Object.entries(q.subs).forEach(([k, sub]) =>
+            cols.push([s.id + " " + q.label + ": " + sub, (r) => fmt(r[q.key] && r[q.key][k])]));
+        } else {
+          cols.push([s.id + " " + q.label, (r) => fmt(r[q.key])]);
+        }
+      }));
+      const escape = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+      const lines = [cols.map(([label]) => escape(label)).join(",")];
+      INTERVIEWS.forEach((r, i) => lines.push(cols.map(([, get]) => escape(get(r, i) || "")).join(",")));
+      // BOM so Excel opens accents correctly.
+      const blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "research.csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    document.getElementById("download").onclick = downloadCsv;
+    renderProgress();
+    renderFilters();
+    renderHead();
+    renderRows();
+  </script>
+</body>
+</html>
