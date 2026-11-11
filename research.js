@@ -1297,7 +1297,7 @@ const INTERVIEWS = [
   },
   // ---- Oscar's interviews (transcribed from the booklets) ----
   {
-    type: "Stakeholder",
+    type: "Traveller",
     by: "Oscar",
     date: "11 Nov",
     description: "Taxi driver living in Odivelas; works Thursday to Sunday from sunset, all over Lisbon",
