@@ -664,7 +664,7 @@ const INTERVIEWS = [
     description: "Bachelor student who goes out about once a month and uses Uber for everything",
     neighbourhood: "",
     rideAlong: false,
-    consent: false,
+    consent: true,
     insight: "Comfort decides everything: he takes Uber for every trip, nights out included, to get places smoothly, fast and whenever he wants. Neither the environment nor the money spent matters to him.",
     notes: "",
 
@@ -672,5 +672,862 @@ const INTERVIEWS = [
     factorRank: ["Comfort", "Travel time", "Flexibility"],
     choicesChange: "Goes out about once a month, and then goes by Uber, like for every other trip.",
     knowImpact: "I don't think about it",
+  },
+  {
+    "type": "Traveller",
+    "by": "Martijn",
+    "date": "Nov 11",
+    "description": "Young Adult Male",
+    "neighbourhood": "Lisboa",
+    "rideAlong": false,
+    "consent": true,
+    "insight": "",
+    "notes": "",
+    "whereWeek": "Between Olaias and Vasco da Gama",
+    "livesIn": "City centre",
+    "dependents": "Alone or outings with families",
+    "rhythms": "What?",
+    "particular": "Food",
+    "modeFrequency": {
+      "walking": "Daily",
+      "ownBike": "Never",
+      "sharedBike": "Never",
+      "busTram": "Rarely",
+      "metro": "Weekly",
+      "trainFerry": "Never",
+      "ownCar": "Weekly",
+      "carShare": "Weekly",
+      "taxi": "Rarely",
+      "other": "Never"
+    },
+    "passes": "Metro card",
+    "passesFit": "Yes, fully",
+    "notCaptured": "",
+    "travelDays": [
+      {
+        "date": "",
+        "morning": {
+          "route": "Olaias -> Vasco da gama",
+          "modes": "Car",
+          "time": "30 min",
+          "cost": "",
+          "feel": "Dull"
+        },
+        "afternoon": {
+          "route": "Vasco da gama -> Olaias",
+          "modes": "Metro",
+          "time": "30 min",
+          "cost": "2 euro",
+          "feel": ""
+        },
+        "evening": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        }
+      }
+    ],
+    "planningTime": "< 1 hour",
+    "howPlan": [
+      "Map / route apps"
+    ],
+    "planFor": [
+      "Saving money"
+    ],
+    "planningChallenges": [
+      "How many pieces of clothing to take on long trips"
+    ],
+    "wishDifferent": [],
+    "whyNot": "",
+    "plannersThink": "",
+    "moment": "Time spent visiting family",
+    "momentWhy": "Memories",
+    "knowImpact": "No",
+    "impactSources": [
+      "Nowhere"
+    ],
+    "changedForEnvironment": "",
+    "infoWorksFrustrates": "",
+    "infoBeforeLeaving": [
+      "Weather"
+    ],
+    "factorRank": [
+      "Cost",
+      "Comfort",
+      "Convenience"
+    ],
+    "moneySplit": {
+      "publicTransport": "24€",
+      "car": "",
+      "shared": "",
+      "other": ""
+    },
+    "choicesChange": "",
+    "wouldAccept": [
+      "None of these"
+    ],
+    "moreInfo": [
+      "Help me choose differently"
+    ],
+    "gaveUp": "No",
+    "idealCompanion": "",
+    "features": [
+      "One ticket or pass for every mode",
+      "Door-to-door planning across walking, bike, bus, metro, train"
+    ],
+    "docTime": "1–5 minutes",
+    "whenHelp": [
+      "Weekly / monthly summary"
+    ],
+    "worthTime": "",
+    "techComfort": {
+      "smartphones": "5",
+      "apps": "5",
+      "payments": "5"
+    },
+    "devices": [
+      "Phone"
+    ],
+    "techBarriers": [
+      "No smartphone or mobile data",
+      "Battery runs out"
+    ],
+    "wantToSee": {
+      "timeSpent": "Nice to have",
+      "money": "Nice to have",
+      "emissions": "",
+      "activeMinutes": "Nice to have",
+      "pastMonths": "",
+      "neighbours": "",
+      "suggestions": "",
+      "other": ""
+    },
+    "shareWith": {
+      "friends": "No",
+      "employer": "No",
+      "operators": "No",
+      "council": "No",
+      "researchers": "No",
+      "companies": "No",
+      "other": "No"
+    },
+    "privacyWants": [],
+    "neighbourhoodShow": "",
+    "participate": [],
+    "seenCO2": "No",
+    "co2Reaction": [
+      "Guilt-inducing"
+    ],
+    "concerns": [
+      "Tracking and surveillance"
+    ],
+    "whoChange": [
+      "Other: Society"
+    ],
+    "realBarriers": [
+      "Infrastructure (no safe lanes, no bike parking, missing connections)",
+      "Cost",
+      "Time",
+      "Safety",
+      "Care duties (children, relatives, shopping)"
+    ],
+    "wouldPay": "Only if it pays for itself",
+    "supportNeeded": [
+      "Incentives from my employer or school"
+    ],
+    "supportWho": "",
+    "designAddress": [],
+    "talkTo": {
+      "travellers": "",
+      "operators": "",
+      "council": "",
+      "employers": "",
+      "other": ""
+    }
+  },
+  {
+    "type": "Traveller",
+    "by": "Martijn",
+    "date": "11 Nov",
+    "description": "MSc student",
+    "neighbourhood": "",
+    "rideAlong": false,
+    "consent": true,
+    "insight": "",
+    "notes": "",
+    "whereWeek": "University, Home",
+    "livesIn": "City centre",
+    "dependents": "Alone",
+    "rhythms": "University schedule",
+    "particular": "Nothing",
+    "modeFrequency": {
+      "walking": "Daily",
+      "ownBike": "Never",
+      "sharedBike": "Never",
+      "busTram": "Never",
+      "metro": "Weekly",
+      "trainFerry": "Rarely",
+      "ownCar": "Weekly",
+      "carShare": "Never",
+      "taxi": "Rarely",
+      "other": "Never"
+    },
+    "passes": "None",
+    "passesFit": "Yes, fully",
+    "notCaptured": "",
+    "travelDays": [
+      {
+        "date": "",
+        "morning": {
+          "route": "Home - University",
+          "modes": "Car",
+          "time": "10 minutes",
+          "cost": "Low",
+          "feel": "Normal"
+        },
+        "afternoon": {
+          "route": "University - Home",
+          "modes": "Car",
+          "time": "10 minutes",
+          "cost": "Low",
+          "feel": "Normal"
+        },
+        "evening": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        }
+      }
+    ],
+    "planningTime": "< 1 hour",
+    "howPlan": [
+      "Map / route apps"
+    ],
+    "planFor": [
+      "Not being late"
+    ],
+    "planningChallenges": [
+      "Time",
+      "Delays",
+      "Cost"
+    ],
+    "wishDifferent": [
+      "None",
+      "None",
+      "None"
+    ],
+    "whyNot": "",
+    "plannersThink": "",
+    "moment": "",
+    "momentWhy": "",
+    "knowImpact": "No",
+    "impactSources": [
+      "Car dashboard / fuel costs"
+    ],
+    "changedForEnvironment": "No",
+    "infoWorksFrustrates": "",
+    "infoBeforeLeaving": [
+      "Travel Time",
+      "Time of Arrival"
+    ],
+    "factorRank": [
+      "Travel time",
+      "Cost",
+      "Reliability",
+      "Flexibility",
+      "Comfort"
+    ],
+    "moneySplit": {
+      "publicTransport": "10",
+      "car": "90",
+      "shared": "0",
+      "other": "0"
+    },
+    "choicesChange": "",
+    "wouldAccept": [
+      "A slightly longer trip: 10 minutes"
+    ],
+    "moreInfo": [
+      "Unsure"
+    ],
+    "gaveUp": "No",
+    "idealCompanion": "",
+    "features": [
+      "One ticket or pass for every mode",
+      "Real-time delays and alternatives",
+      "Works offline",
+      "Works with apps and cards I already use"
+    ],
+    "docTime": "< 1 minute",
+    "whenHelp": [
+      "The night before"
+    ],
+    "worthTime": "",
+    "techComfort": {
+      "smartphones": "5",
+      "apps": "4",
+      "payments": "4"
+    },
+    "devices": [
+      "Phone",
+      "Transit card"
+    ],
+    "techBarriers": [
+      "Battery runs out",
+      "Cost"
+    ],
+    "wantToSee": {
+      "timeSpent": "Essential",
+      "money": "Essential",
+      "emissions": "Nice to have",
+      "activeMinutes": "Essential",
+      "pastMonths": "Essential",
+      "neighbours": "Nice to have",
+      "suggestions": "Nice to have",
+      "other": ""
+    },
+    "shareWith": {
+      "friends": "Yes",
+      "employer": "No",
+      "operators": "No",
+      "council": "No",
+      "researchers": "No",
+      "companies": "No",
+      "other": ""
+    },
+    "privacyWants": [
+      "Control exactly what's shared",
+      "Delete history at any time"
+    ],
+    "neighbourhoodShow": "",
+    "participate": [
+      "Online vote or survey",
+      "Testing a temporary change (pop-up lane, new stop)"
+    ],
+    "seenCO2": "No",
+    "co2Reaction": [
+      "Confusing"
+    ],
+    "concerns": [
+      "Unfair to people with no real alternative",
+      "Tracking and surveillance",
+      "Who controls the data?"
+    ],
+    "whoChange": [
+      "The city (streets, lanes, parking)",
+      "Transport operators (frequency, prices, connections)"
+    ],
+    "realBarriers": [
+      "Infrastructure (no safe lanes, no bike parking, missing connections)",
+      "Cost",
+      "Time",
+      "Weather or hills"
+    ],
+    "wouldPay": "Only if it pays for itself",
+    "supportNeeded": [
+      "A free or discounted trial period",
+      "Someone to plan the first trips with me",
+      "Incentives from my employer or school"
+    ],
+    "supportWho": "",
+    "designAddress": [],
+    "talkTo": {
+      "travellers": "",
+      "operators": "",
+      "council": "",
+      "employers": "",
+      "other": ""
+    }
+  },
+  {
+    "type": "Traveller",
+    "by": "Martijn",
+    "date": "11 Nov",
+    "description": "MSc Student, 24 yo, likes to go out",
+    "neighbourhood": "rua comandante cousteau",
+    "rideAlong": false,
+    "consent": true,
+    "insight": "",
+    "notes": "",
+    "whereWeek": "To IST, to go out with friends at Bairro alto, or do other things at spots such as Saldanha and Campo Pequeno",
+    "livesIn": "City centre",
+    "dependents": "Usually travel alone",
+    "rhythms": "",
+    "particular": "",
+    "modeFrequency": {
+      "walking": "Daily",
+      "ownBike": "Never",
+      "sharedBike": "Never",
+      "busTram": "Never",
+      "metro": "Weekly",
+      "trainFerry": "Weekly",
+      "ownCar": "Rarely",
+      "carShare": "Never",
+      "taxi": "Rarely",
+      "other": "Never"
+    },
+    "passes": "I have the monthly pass to the public transport",
+    "passesFit": "Partially: Most of the times yes, but in order to return from a night out it would be nice to have something like metro",
+    "notCaptured": "",
+    "travelDays": [
+      {
+        "date": "When i have to go to IST",
+        "morning": {
+          "route": "Home to IST",
+          "modes": "Metro",
+          "time": "30/40 minutes",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "afternoon": {
+          "route": "IST to home",
+          "modes": "Metro",
+          "time": "30/40 minutes",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "evening": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        }
+      },
+      {
+        "date": "When i have dinner with friends",
+        "morning": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        },
+        "afternoon": {
+          "route": "Home to Campo pequeno",
+          "modes": "Metro",
+          "time": "30/40 minutes",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "evening": {
+          "route": "Campo Pequeno to Home",
+          "modes": "Metro",
+          "time": "30/40 minutes",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        }
+      },
+      {
+        "date": "When i have a night out with friends",
+        "morning": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        },
+        "afternoon": {
+          "route": "Home to Baixa-Chiado",
+          "modes": "Metro",
+          "time": "30/40 minutes",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "evening": {
+          "route": "Bairro alto to Home",
+          "modes": "Taxi",
+          "time": "20 minutes",
+          "cost": "about 15€",
+          "feel": "i would like to have more options"
+        }
+      },
+      {
+        "date": "When i go to my grandfathers house",
+        "morning": {
+          "route": "Home to Benfica",
+          "modes": "Train",
+          "time": "30 mins",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "afternoon": {
+          "route": "Benfica to home",
+          "modes": "Train",
+          "time": "30 mins",
+          "cost": "30€ monthly",
+          "feel": "its good"
+        },
+        "evening": {
+          "route": "",
+          "modes": "",
+          "time": "",
+          "cost": "",
+          "feel": ""
+        }
+      }
+    ],
+    "planningTime": "< 1 hour",
+    "howPlan": [
+      "Map / route apps",
+      "Memory and habit"
+    ],
+    "planFor": [
+      "Not being late"
+    ],
+    "planningChallenges": [],
+    "wishDifferent": [],
+    "whyNot": "",
+    "plannersThink": "That most peope return home relatively early",
+    "moment": "On Fridays and Saturdays a lot of people go out",
+    "momentWhy": "I also go out, would like to have more options of public transport",
+    "knowImpact": "No",
+    "impactSources": [
+      "Nowhere"
+    ],
+    "changedForEnvironment": "No because i mostly use public transport like metro and train which i think is better than a car",
+    "infoWorksFrustrates": "It never gets to me, its something that is rarely talked about",
+    "infoBeforeLeaving": [],
+    "factorRank": [
+      "Cost",
+      "Travel time",
+      "Reliability",
+      "Comfort",
+      "Accessibility"
+    ],
+    "moneySplit": {
+      "publicTransport": "70",
+      "car": "10",
+      "shared": "20",
+      "other": ""
+    },
+    "choicesChange": "I mostly use public transport, except for long trips and night outs",
+    "wouldAccept": [
+      "None of these"
+    ],
+    "moreInfo": [
+      "Unsure"
+    ],
+    "gaveUp": "No: i use mostly public transport",
+    "idealCompanion": "",
+    "features": [
+      "One ticket or pass for every mode",
+      "Real-time delays and alternatives",
+      "Accessibility details (steps, lifts, step-free routes)",
+      "Safety details (lighting, protected bike lanes)"
+    ],
+    "docTime": "1–5 minutes",
+    "whenHelp": [
+      "Just before leaving",
+      "On the way (when things go wrong)"
+    ],
+    "worthTime": "",
+    "techComfort": {
+      "smartphones": "5",
+      "apps": "5",
+      "payments": "5"
+    },
+    "devices": [
+      "Phone",
+      "Transit card",
+      "Screens at stops / stations"
+    ],
+    "techBarriers": [],
+    "wantToSee": {
+      "timeSpent": "Nice to have",
+      "money": "Essential",
+      "emissions": "Nice to have",
+      "activeMinutes": "Nice to have",
+      "pastMonths": "Nice to have",
+      "neighbours": "Nice to have",
+      "suggestions": "Essential",
+      "other": ""
+    },
+    "shareWith": {
+      "friends": "Yes",
+      "employer": "No",
+      "operators": "Only anonymous",
+      "council": "No",
+      "researchers": "Only anonymous",
+      "companies": "Only anonymous",
+      "other": ""
+    },
+    "privacyWants": [
+      "Control exactly what's shared",
+      "Pause tracking for some trips"
+    ],
+    "neighbourhoodShow": "",
+    "participate": [
+      "Online vote or survey"
+    ],
+    "seenCO2": "No",
+    "co2Reaction": [
+      "Confusing",
+      "Interesting but unclear how it helps me"
+    ],
+    "concerns": [
+      "Unfair to people with no real alternative"
+    ],
+    "whoChange": [
+      "The city (streets, lanes, parking)"
+    ],
+    "realBarriers": [
+      "Habit"
+    ],
+    "wouldPay": "Only if it pays for itself",
+    "supportNeeded": [
+      "A free or discounted trial period",
+      "Training (e.g. cycling in traffic, using the app)",
+      "Safe storage for a bike or scooter",
+      "Incentives from my employer or school"
+    ],
+    "supportWho": "",
+    "designAddress": [],
+    "talkTo": {
+      "travellers": "",
+      "operators": "",
+      "council": "",
+      "employers": "",
+      "other": ""
+    }
+  },
+  // ---- Oscar's interviews (transcribed from the booklets) ----
+  {
+    type: "Stakeholder",
+    by: "Oscar",
+    date: "11 Nov",
+    description: "Taxi driver living in Odivelas; works Thursday to Sunday from sunset, all over Lisbon",
+    neighbourhood: "Odivelas",
+    rideAlong: false,
+    consent: true,
+    insight: "",
+    notes: "",
+
+    whereWeek: "All over Lisbon, Odivelas",
+    livesIn: "Suburb / outer municipality",
+    dependents: "Passengers",
+    rhythms: "Thursday to Sunday, from sunset",
+    particular: "The car is his workplace",
+    modeFrequency: {
+      walking: "Weekly", ownBike: "Never", sharedBike: "Never", busTram: "Rarely", metro: "Rarely",
+      trainFerry: "Rarely", ownCar: "Daily", carShare: "", taxi: "Daily (as the driver)", other: "",
+    },
+    passes: "Via Verde",
+    passesFit: "Yes, fully",
+    notCaptured: "Navegante",
+    travelDays: [{
+      date: "",
+      evening: { route: "Odivelas → Marquês de Pombal", modes: "Taxi", time: "25 min", cost: "", feel: "Normal; traffic" },
+    }],
+    planningTime: "< 1 hour",
+    howPlan: ["Map / route apps", "Memory and habit"],
+    planFor: ["Not being late", "Saving money", "Safety (lighting, traffic, people)"],
+    planningChallenges: ["Knowing demand", "Peak traffic"],
+    plannersThink: "Taxis are part of the traffic problem, but after 1 am there is little other choice.",
+    knowImpact: "I have a feeling for it: diesel",
+    impactSources: ["Car dashboard / fuel costs"],
+    changedForEnvironment: "Reduced idling, because of money",
+    infoWorksFrustrates: "EVs are supposed to be good, but expensive, and there are few chargers",
+    infoBeforeLeaving: ["Events", "Closed streets", "Weather"],
+    factorRank: ["Cost", "Safety", "Travel time", "Reliability", "Flexibility"],
+    moneySplit: { publicTransport: "5%", car: "90%", shared: "0%", other: "5%" },
+    wouldAccept: ["A slightly longer trip: up to 15 minutes more"],
+    moreInfo: ["Create more effort than value"],
+    gaveUp: "Yes: too expensive, difficult to change",
+    idealCompanion: "Shared trips at night",
+    features: [
+      "Real-time delays and alternatives", "Voice / hands-free while moving",
+      "Travel with friends, family or colleagues", "Works with apps and cards I already use",
+    ],
+    docTime: "< 1 minute",
+    whenHelp: ["On the way (when things go wrong)"],
+    worthTime: "More fares at night",
+    techComfort: { smartphones: 4, apps: 4, payments: 4 },
+    devices: ["Phone", "Car or bike display"],
+    techBarriers: ["Battery runs out", "Don't trust apps with my location"],
+    wantToSee: {
+      timeSpent: "Essential", money: "Essential", emissions: "Nice to have", activeMinutes: "",
+      pastMonths: "Essential", neighbours: "", suggestions: "Nice to have", other: "Essential: km driven empty",
+    },
+    shareWith: {
+      friends: "No", employer: "Yes", operators: "Only anonymous", council: "Only anonymous",
+      researchers: "Only anonymous", companies: "No", other: "",
+    },
+    privacyWants: ["Control exactly what's shared", "Delete history at any time"],
+    seenCO2: "Yes: car ad",
+    co2Reaction: ["Interesting but unclear how it helps me"],
+    concerns: ["Greenwashing", "Unfair to people with no real alternative"],
+    whoChange: [
+      "The city (streets, lanes, parking)", "Transport operators (frequency, prices, connections)",
+      "Other: government support for electric cars",
+    ],
+    realBarriers: ["Infrastructure (no safe lanes, no bike parking, missing connections)", "Cost", "Time"],
+    wouldPay: "Only if it pays for itself: work",
+    supportNeeded: ["A free or discounted trial period", "Incentives from my employer or school"],
+    designAddress: ["Times when the metro doesn't run", "Empty taxi km", "Safety"],
+    talkTo: { travellers: "Yes", operators: "Yes", council: "", employers: "", other: "" },
+  },
+
+  {
+    type: "Traveller",
+    by: "Oscar",
+    date: "11 Nov",
+    description: "Student living in Anjos with roommates; studies at Taguspark, takes bus and metro daily",
+    neighbourhood: "Anjos",
+    rideAlong: false,
+    consent: false,
+    insight: "",
+    notes: "",
+
+    whereWeek: "To/from school (Taguspark), Cais do Sodré, Carcavelos, supermarket",
+    livesIn: "Inner neighbourhood",
+    dependents: "Roommates",
+    particular: "Chooses convenience first",
+    modeFrequency: {
+      walking: "Daily", ownBike: "Never", sharedBike: "Never", busTram: "Daily", metro: "Daily",
+      trainFerry: "Weekly", ownCar: "Never", carShare: "Never", taxi: "Weekly", other: "",
+    },
+    passesFit: "Yes, fully",
+    travelDays: [{
+      date: "",
+      evening: { route: "Santos", modes: "Metro / tram / walk", time: "30–40 min", cost: "€40 / month", feel: "Good" },
+    }],
+    planningTime: "< 1 hour",
+    howPlan: ["Map / route apps"],
+    planFor: ["Not being late", "Accessibility (steps, lifts, buggy, luggage)"],
+    planningChallenges: [
+      "Buses not on time", "Trams not on time",
+      "Bad connection between maps and Metro Lisboa; bad Metro app",
+    ],
+    wishDifferent: ["Caparica, not by cab"],
+    plannersThink: "Hard to plan routes because of stops in traffic, which makes buses late.",
+    moment: "Sketch of a metro train in a tunnel",
+    momentWhy: "Most often travels by metro",
+    knowImpact: "No",
+    changedForEnvironment: "No",
+    factorRank: ["Travel time", "Reliability", "Cost", "Safety", "Comfort"],
+    moneySplit: { publicTransport: "100%", car: "", shared: "", other: "" },
+    wouldAccept: [
+      "A slightly longer trip: 10–20 minutes more", "A slightly higher price: €15–40 more", "Less comfort",
+    ],
+    moreInfo: ["Help me choose differently"],
+    idealCompanion: "Lower cost",
+    features: [
+      "One ticket or pass for every mode", "Door-to-door planning across walking, bike, bus, metro, train",
+      "Impact shown for each route option", "Real-time delays and alternatives",
+      "Accessibility details (steps, lifts, step-free routes)", "Works with apps and cards I already use",
+    ],
+    techComfort: { smartphones: 5, apps: 5, payments: 5 },
+    devices: ["Phone", "Transit card", "Screens at stops / stations", "Car or bike display", "Other: computer for flights"],
+    techBarriers: ["Cost"],
+    wantToSee: {
+      timeSpent: "Nice to have", money: "Essential", emissions: "Nice to have", activeMinutes: "Nice to have",
+      pastMonths: "", neighbours: "", suggestions: "Nice to have", other: "",
+    },
+    shareWith: {
+      friends: "Yes", employer: "No", operators: "No", council: "No",
+      researchers: "No", companies: "Yes", other: "",
+    },
+    privacyWants: [
+      "Control exactly what's shared", "Delete history at any time", "Pause tracking for some trips",
+      "Share only to improve services for everyone",
+    ],
+    participate: ["Online vote or survey"],
+    seenCO2: "Yes: flight booking",
+    co2Reaction: ["Useful"],
+    concerns: ["Greenwashing", "Unfair to people with no real alternative", "Cost"],
+    whoChange: [
+      "The city (streets, lanes, parking)", "Transport operators (frequency, prices, connections)",
+      "Nobody: I'd do it if it were easy enough",
+    ],
+    realBarriers: ["Infrastructure (no safe lanes, no bike parking, missing connections)", "Cost", "Time", "Habit"],
+    wouldPay: "Yes: up to €10 per month/year",
+    supportNeeded: ["A free or discounted trial period", "A group of others doing the same", "Incentives from my employer or school"],
+    supportWho: "Employers / government",
+    designAddress: ["Life-cycle analysis", "Accessibility", "Reliability"],
+    talkTo: { travellers: "Yes", operators: "", council: "Yes", employers: "Yes", other: "" },
+  },
+
+  {
+    type: "Traveller",
+    by: "Oscar",
+    date: "11 Nov",
+    description: "Student living in Anjos; school, city and beach; picks the safer option in the evening",
+    neighbourhood: "Anjos",
+    rideAlong: false,
+    consent: true,
+    insight: "",
+    notes: "",
+
+    whereWeek: "Sketch: school, city, beach",
+    livesIn: "City centre",
+    dependents: "Friends, mainly for school",
+    rhythms: "Every season, more so during bad weather",
+    particular: "How easy it is to get around; people and building watching; connection",
+    modeFrequency: {
+      walking: "Daily", ownBike: "Never", sharedBike: "Never", busTram: "Weekly", metro: "Weekly",
+      trainFerry: "Rarely", ownCar: "Never", carShare: "Never", taxi: "Weekly", other: "Never",
+    },
+    passesFit: "Yes, fully",
+    notCaptured: "Travel data, environmental impact",
+    travelDays: [{
+      date: "4 Oct",
+      evening: { route: "Anjos → the bar", modes: "Metro", time: "10 min", cost: "Nothing", feel: "Nice, easy" },
+    }],
+    planningTime: "< 1 hour",
+    howPlan: ["Map / route apps"],
+    planFor: ["Not being late", "Accessibility (steps, lifts, buggy, luggage)", "Coordinating with others"],
+    planningChallenges: ["Route", "Traffic", "Time"],
+    wishDifferent: ["To the airport", "To school", "To events"],
+    whyNot: "Time optimisation",
+    plannersThink: "Accessibility",
+    moment: "Sketch of a metro train: \"a lot of unnecessary metro, instead of walking\"",
+    knowImpact: "No",
+    impactSources: ["Nowhere"],
+    changedForEnvironment: "Yes, train instead of flight",
+    infoWorksFrustrates: "Through the phone is the best",
+    infoBeforeLeaving: ["Time", "Route", "Stops"],
+    factorRank: ["Cost", "Reliability", "Travel time", "Safety", "Comfort"],
+    moneySplit: { publicTransport: "0% (has NIF)", car: "0%", shared: "15%", other: "0%" },
+    choicesChange: "Yes, in the evening I choose a safer option.",
+    wouldAccept: ["A slightly longer trip", "A slightly higher price", "Less comfort"],
+    moreInfo: ["Unsure"],
+    gaveUp: "Yes: too many changes",
+    idealCompanion: "One way, not too time-consuming; an app for it stating the benefits",
+    features: [
+      "Door-to-door planning across walking, bike, bus, metro, train", "Impact shown for each route option",
+      "Real-time delays and alternatives", "Accessibility details (steps, lifts, step-free routes)",
+      "Safety details (lighting, protected bike lanes)", "Works offline", "Works with apps and cards I already use",
+    ],
+    docTime: "1–5 minutes",
+    whenHelp: ["Just before leaving", "On the way (when things go wrong)"],
+    worthTime: "Good options for the route",
+    techComfort: { smartphones: 5, apps: 5, payments: 5 },
+    devices: ["Phone"],
+    techBarriers: ["Battery runs out"],
+    wantToSee: {
+      timeSpent: "Essential", money: "Essential", emissions: "Nice to have", activeMinutes: "Nice to have",
+      pastMonths: "Nice to have", neighbours: "Nice to have", suggestions: "Essential", other: "",
+    },
+    shareWith: {
+      friends: "Yes", employer: "", operators: "Yes", council: "Yes",
+      researchers: "Yes", companies: "Yes", other: "",
+    },
+    privacyWants: ["Delete history at any time", "Pause tracking for some trips"],
+    participate: ["Not interested"],
+    seenCO2: "No",
+    co2Reaction: ["Useful"],
+    concerns: ["Greenwashing", "Unfair to people with no real alternative"],
+    whoChange: ["Transport operators (frequency, prices, connections)", "Nobody: I'd do it if it were easy enough"],
+    realBarriers: ["Infrastructure (no safe lanes, no bike parking, missing connections)", "Time", "Habit"],
+    wouldPay: "Unsure",
+    supportNeeded: ["A free or discounted trial period", "A group of others doing the same", "Incentives from my employer or school"],
+    supportWho: "Transport operators",
+    designAddress: ["Time", "Safety", "Costs"],
+    talkTo: { travellers: "Yes", operators: "", council: "Yes", employers: "", other: "" },
   },
 ];
