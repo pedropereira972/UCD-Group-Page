@@ -48,14 +48,7 @@ const STAKEHOLDERS = [
     by: "Oscar",
     date: "11 Nov",
     consent: true,
-    points: [
-      "Taxis are part of the traffic problem, but after 1 am there is little other choice.",
-      "Wants the design to address the times when the metro doesn't run, empty taxi km, and safety.",
-      "Ideal: shared trips at night. It would be worth it if it meant more fares at night.",
-      "Planning challenges: knowing demand and peak traffic. Before leaving he checks events, closed streets and the weather.",
-      "Has a feeling for his footprint (diesel); reduced idling, but because of money.",
-      "EVs are supposed to be good, but they're expensive and there are few chargers; he'd need government support for electric cars.",
-    ],
+    points: [],
     quotes: [],
   },
 ];
