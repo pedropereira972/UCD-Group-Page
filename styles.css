@@ -793,3 +793,16 @@ select.input { cursor: pointer; }
   .day-pill span { display: none; }
   .night { padding: 18px; }
 }
+
+/* Hunt statement on the main page */
+.hunt {
+  margin: 0;
+  padding: 28px 32px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.45;
+}
+.hunt strong { font-weight: 800; }
