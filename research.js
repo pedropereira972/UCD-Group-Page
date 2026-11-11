@@ -1379,7 +1379,7 @@ const INTERVIEWS = [
     description: "Student living in Anjos with roommates; studies at Taguspark, takes bus and metro daily",
     neighbourhood: "Anjos",
     rideAlong: false,
-    consent: false,
+    consent: true,
     insight: "",
     notes: "",
 
