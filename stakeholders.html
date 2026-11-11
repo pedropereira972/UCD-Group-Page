@@ -35,7 +35,7 @@
     <div class="stakeholders" id="stakeholders"></div>
   </main>
 
-  <script src="stakeholders.js?v=1"></script>
+  <script src="stakeholders.js?v=3"></script>
   <script>
     function make(tag, className, text) {
       const el = document.createElement(tag);
@@ -74,8 +74,10 @@
       );
       el.append(facts);
 
-      el.append(make("h3", "stake-sub", "What they told us"));
-      el.append(list(s.points, "ul", "To fill in"));
+      if (s.points && s.points.length) {
+        el.append(make("h3", "stake-sub", "What they told us"));
+        el.append(list(s.points, "ul", ""));
+      }
       if (s.quotes && s.quotes.length) {
         el.append(make("h3", "stake-sub", "In their words"));
         const q = make("div", "stake-quotes");

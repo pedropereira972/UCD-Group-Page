@@ -1300,7 +1300,7 @@ const INTERVIEWS = [
     type: "Traveller",
     by: "Oscar",
     date: "11 Nov",
-    description: "Taxi driver living in Odivelas; works Thursday to Sunday from sunset, all over Lisbon",
+    description: "MSc student living in Odivelas; moves all over Lisbon, mostly by car",
     neighbourhood: "Odivelas",
     rideAlong: false,
     consent: true,
@@ -1314,7 +1314,7 @@ const INTERVIEWS = [
     particular: "The car is his workplace",
     modeFrequency: {
       walking: "Weekly", ownBike: "Never", sharedBike: "Never", busTram: "Rarely", metro: "Rarely",
-      trainFerry: "Rarely", ownCar: "Daily", carShare: "", taxi: "Daily (as the driver)", other: "",
+      trainFerry: "Rarely", ownCar: "Daily", carShare: "", taxi: "Daily", other: "",
     },
     passes: "Via Verde",
     passesFit: "Yes, fully",
