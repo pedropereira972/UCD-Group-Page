@@ -49,7 +49,7 @@ Practices & Routines + Relationships & Commons`,
         title: "Fieldwork done",
         body: `Interviews: 12 travellers with the Your Journey booklet, 3 per member, all with signed consent (see Interviews).
 Stakeholders: two bus drivers (8 and 12 years of experience), an Uber driver and a taxi driver (see Stakeholders).
-Travel diaries: Pedro's and Martijn's night trips are on the Night trips page.
+Travel diaries: all four members' night trips are on the Night trips page.
 Next: the synthesis (personas, scenarios, CI models).`,
       },
     ],

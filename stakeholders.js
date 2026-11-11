@@ -41,7 +41,6 @@ const STAKEHOLDERS = [
     quotes: [],
   },
   {
-    // From his Your Journey booklet (the same answers as P10 on the Interviews page).
     role: "Taxi driver",
     experience: "",
     about: "Lives in Odivelas; works Thursday to Sunday from sunset, all over Lisbon",

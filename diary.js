@@ -268,4 +268,69 @@ const DIARIES = [
       },
     ],
   },
+  {
+    by: "Oscar",
+    period: "5 evenings out (no dates given)",
+
+    days: [
+      { day: "Day 1", date: "Carcavelos", night: true },
+      { day: "Day 2", date: "Baixa-Chiado", night: true },
+      { day: "Day 3", date: "Santos & Bairro Alto", night: true },
+      { day: "Day 4", date: "Anjos", night: true },
+      { day: "Day 5", date: "Bairro Alto & Cais do Sodré", night: true },
+    ],
+
+    nights: [
+      {
+        day: "Day 1",
+        date: "Carcavelos",
+        trips: [
+          { title: "Way back", from: "Carcavelos beach", to: "Station", left: "19:01", modes: ["Walking"], why: "Cheaper than a taxi, reasonably fast", obstacles: "Nothing", feeling: "Good" },
+          { title: "Way back", from: "Carcavelos", to: "Cais do Sodré", left: "19:17", modes: ["Train"], why: "Cheaper than a taxi, reasonably fast", obstacles: "Nothing", feeling: "Good" },
+          { title: "Way back", from: "Cais do Sodré", to: "Anjos", left: "20:07", modes: ["Metro"], why: "Cheaper and faster than a taxi", obstacles: "Nothing", feeling: "Good" },
+        ],
+      },
+      {
+        day: "Day 2",
+        date: "Baixa-Chiado",
+        trips: [
+          { title: "Way there", from: "Anjos", to: "Baixa-Chiado", left: "19:12", modes: ["Metro"], why: "Fastest and cheapest", feeling: "Good" },
+          { title: "Way there", from: "Baixa-Chiado", to: "Restaurant", left: "19:17", modes: ["Walking"], why: "Fastest and cheapest", feeling: "Good" },
+          { title: "Way back", from: "Restaurant", to: "Baixa-Chiado", left: "21:35", modes: ["Walking"], why: "Fastest and cheapest", feeling: "Good" },
+          { title: "Way back", from: "Baixa-Chiado", to: "Anjos", left: "21:42", modes: ["Metro"], why: "Fastest and cheapest", feeling: "Good" },
+        ],
+      },
+      {
+        day: "Day 3",
+        date: "Santos & Bairro Alto",
+        trips: [
+          { title: "Way there", from: "Anjos", to: "Baixa-Chiado", left: "17:02", modes: ["Metro"], why: "Fastest", feeling: "Good" },
+          { title: "Way there", from: "Baixa-Chiado", to: "Miradouro in Santos", left: "17:07", modes: ["Walking"], why: "Cheapest", feeling: "Pretty hilly, took a long time and didn't want to miss the sunset" },
+          { title: "During the night", from: "Miradouro", to: "Restaurant in Santos", left: "18:21", modes: ["Walking"], why: "Cheapest", feeling: "Good" },
+          { title: "During the night", from: "Restaurant in Santos", to: "Bar in Bairro Alto", left: "20:15", modes: ["Walking"], why: "Cheapest", feeling: "Good" },
+          { title: "During the night", from: "Bar in Bairro Alto", to: "Club in Cais do Sodré", left: "22:30", modes: ["Taxi"], why: "Fastest", feeling: "OK, pretty expensive" },
+          { title: "Way back", from: "Cais do Sodré", to: "Anjos", left: "01:50", modes: ["Taxi"], why: "Fastest", obstacles: "Would have preferred the metro", feeling: "OK, pretty expensive and slow" },
+        ],
+      },
+      {
+        day: "Day 4",
+        date: "Anjos",
+        trips: [
+          { title: "Way there", from: "Home", to: "Simos (Anjos)", left: "16:46", modes: ["Walking"], why: "Fastest", obstacles: "Very hilly", feeling: "OK" },
+          { title: "During the night", from: "Simos", to: "Restaurant in Anjos", left: "18:23", modes: ["Walking"], why: "Fastest", obstacles: "Very hilly", feeling: "OK" },
+          { title: "During the night", from: "Restaurant", to: "Bar in Anjos", left: "19:50", modes: ["Walking"], why: "Fastest", feeling: "Good" },
+          { title: "Way back", from: "Bar", to: "Home", left: "22:34", modes: ["Walking"], why: "Fastest", feeling: "Good" },
+        ],
+      },
+      {
+        day: "Day 5",
+        date: "Bairro Alto & Cais do Sodré",
+        trips: [
+          { title: "Way there", from: "Anjos", to: "Bairro Alto", left: "22:11", modes: ["Taxi"], why: "Faster than metro + walking", obstacles: "Bad metro connection to Bairro Alto", feeling: "OK; would rather not have spent the money and used the Navegante pass all the way" },
+          { title: "During the night", from: "Bairro Alto", to: "Club in Cais do Sodré", left: "23:57", modes: ["Walking"], why: "Cheaper than a taxi, faster than public transport", obstacles: "Nothing", feeling: "Fine" },
+          { title: "Way back", from: "Cais do Sodré", to: "Anjos", left: "02:43", modes: ["Taxi"], why: "Faster than the bus, felt safer than walking", obstacles: "No metro at that hour", feeling: "OK" },
+        ],
+      },
+    ],
+  },
 ];
